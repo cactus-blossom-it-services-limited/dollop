@@ -21,6 +21,7 @@ class ProductForm extends ContentEntityForm
 
         $status = parent::save($form, $form_state);
 
+        // the following switch statement overrides the parent form, adding custom messages
         switch ($status) {
             case SAVED_NEW:
                 drupal_set_message($this->t('Created the %label Product.', [
