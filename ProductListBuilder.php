@@ -1,15 +1,42 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andrew
- * Date: 2021-07-29
- * Time: 18:34
- */
 
 namespace Drupal\dollop;
 
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityListBuilder;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 
-class ProductListBuilder
+/**
+ * EntityListBuilderInterface implementation responsible for the Product entities.
+ */
+
+class ProductListBuilder extends EntityListBuilder
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function buildHeader() {
+        $header['id'] = $this->t('Product ID');
+        $header['name'] = $this->t('Name');
+        return $header + parent::buildHeader();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildRow(EntityInterface $entity) {
+        /* @var $entity \Drupal\dollop\Entity\Product */
+        $row['id'] = $entity->id();
+        $row['name'] = Link::fromTextAndUrl(
+            $entity->label(),
+            $new Url(
+                'entity.product.canonical', [
+                    'product' => $entity->id(),
+                ]
+            )
+        );
+        return $row + parent::buildRow($entity);
+    }
 
 }
